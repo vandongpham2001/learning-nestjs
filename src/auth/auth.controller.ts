@@ -2,7 +2,9 @@ import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { RegisterUserDto } from './dto/request/register-user.dto';
+import { Public } from 'src/common/decorator/public.decorator';
 
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

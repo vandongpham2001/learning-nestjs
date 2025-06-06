@@ -1,13 +1,14 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaskModule } from './task/task.module';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { RoleModule } from './role/role.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { RoleModule } from './role/role.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       synchronize: false,
-      entities: [__dirname + '/src/**/entities/*.entity{.ts,.js}'],
+      entities: [__dirname + '/**/entities/*.entity{.ts,.js}'],
       autoLoadEntities: true,
     }),
     TaskModule,
@@ -35,6 +36,10 @@ import { RoleModule } from './role/role.module';
     {
       provide: APP_FILTER,
       useClass: GlobalExceptionFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
     },
   ],
 })

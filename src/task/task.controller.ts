@@ -15,9 +15,7 @@ import { UpdateTaskDto } from './dto/request/update-task.dto';
 import { TaskResponseDto } from './dto/response/task-response.dto';
 import { FilterTaskDto } from './dto/request/filter-task.dto';
 import { PageResponse } from '../common/dto/response/page-response.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-@UseGuards(JwtAuthGuard)
 @Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
